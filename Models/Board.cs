@@ -30,6 +30,12 @@ namespace Battleship.Models
             this.BattleshipPositions = new Dictionary<Battleship, List<Point>>();
         }
 
+        public List<Point> GetBattleshipPositions(Battleship battleship)
+        {
+            return this.BattleshipPositions.ContainsKey(battleship) ?
+                    this.BattleshipPositions[battleship] : null;
+        }
+
         public void AddBattleship(Battleship battleship,
                                   BattleshipOrientation orientation,
                                   System.Drawing.Point startPosition)
@@ -45,13 +51,13 @@ namespace Battleship.Models
                 var nextPosition = new Point();
                 if (orientation == BattleshipOrientation.Horizontal)
                 {
-                    nextPosition.X = startPosition.X;
-                    nextPosition.Y = startPosition.Y + index;
+                    nextPosition.X = startPosition.X + index;
+                    nextPosition.Y = startPosition.Y;
                 }
                 else
                 {
-                    nextPosition.X = startPosition.X + index;
-                    nextPosition.Y = startPosition.Y;
+                    nextPosition.X = startPosition.X;
+                    nextPosition.Y = startPosition.Y + index;
                 }
 
                 if (OccupiedCells.Contains(nextPosition) == true)
@@ -69,6 +75,30 @@ namespace Battleship.Models
         public bool TakeAttack(System.Drawing.Point position)
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            for (int x = 0, y = 0; y < this.Rows; x++)
+            {
+                if (this.OccupiedCells.Contains(new Point(x, y)) == true)
+                {
+                    sb.Append($" X ");
+                }
+                else
+                {
+                    sb.Append(" O ");
+                }
+
+                if (x == 9)
+                {
+                    y++;
+                    x = -1;
+                    sb.Append(Environment.NewLine);
+                }
+            }
+            return sb.ToString();
         }
     }
 }
