@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using Battleship.Commons;
 
 namespace Battleship.Models
 {
@@ -62,7 +63,7 @@ namespace Battleship.Models
 
                 if (OccupiedCells.Contains(nextPosition) == true)
                 {
-                    throw new ValidationException("Battleship cannot be placed here as position is already occupied");
+                    throw new PositionConflictException("Battleship cannot be placed here as position is already occupied");
                 }
 
                 pointsOccupiedByShip.Add(nextPosition);

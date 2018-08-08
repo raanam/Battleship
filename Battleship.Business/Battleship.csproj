@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\PositionConflictException.cs" />
     <Compile Include="Models\Battleship.cs" />
     <Compile Include="Models\BattleshipOrientation.cs" />
     <Compile Include="Models\Board.cs" />
