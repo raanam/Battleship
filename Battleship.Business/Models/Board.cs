@@ -75,7 +75,21 @@ namespace Battleship.Models
 
         public bool TakeAttack(System.Drawing.Point position)
         {
-            throw new NotImplementedException();
+            // Find battleship at position.
+            var battleshipAtPosition = this.
+                                       BattleshipPositions.
+                                       Where(eachMap => eachMap.Value.Contains(position)).
+                                       Select(eachMap => eachMap.Key).
+                                       FirstOrDefault();
+
+            if (battleshipAtPosition == null)
+            {
+                return false;
+            }
+
+            var hitPosition = this.BattleshipPositions[battleshipAtPosition].IndexOf(position);
+            battleshipAtPosition.AcceptHit(hitPosition);
+            return true;
         }
 
         public override string ToString()
