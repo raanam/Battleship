@@ -15,7 +15,14 @@ namespace Battleship.Models
 
         public int Columns { get; private set; }
 
-        public IEnumerable<Battleship> Battleships { get; private set; }
+        private List<Battleship> battleships;
+        public IEnumerable<Battleship> Battleships
+        {
+            get
+            {
+                return battleships.AsEnumerable();
+            }
+        }
 
         // Co-ordinates from 0,0 to 9,9 for 10 x 10 Grid.
         private List<Point> OccupiedCells;
@@ -26,7 +33,7 @@ namespace Battleship.Models
         {
             this.Rows = 10;
             this.Columns = 10;
-            this.Battleships = new List<Battleship>();
+            this.battleships = new List<Battleship>();
             this.OccupiedCells = new List<Point>();
             this.BattleshipPositions = new Dictionary<Battleship, List<Point>>();
         }
@@ -69,6 +76,7 @@ namespace Battleship.Models
                 pointsOccupiedByShip.Add(nextPosition);
             }
 
+            this.battleships.Add(battleship);
             this.OccupiedCells.AddRange(pointsOccupiedByShip);
             this.BattleshipPositions.Add(battleship, pointsOccupiedByShip);
         }
@@ -90,6 +98,11 @@ namespace Battleship.Models
             var hitPosition = this.BattleshipPositions[battleshipAtPosition].IndexOf(position);
             battleshipAtPosition.AcceptHit(hitPosition);
             return true;
+        }
+
+        public bool Won()
+        {
+            return !this.Battleships.Where(eachShip => eachShip.IsSunk == false).Any();
         }
 
         public override string ToString()
